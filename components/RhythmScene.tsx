@@ -23,14 +23,14 @@ export default function RhythmScene() {
       renderer.setClearColor(0x000000, 0);
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(37, 1, 0.1, 80);
-      camera.position.set(0, 0, 10.7);
+      camera.position.set(0, 0, 9.4);
       const sculpture = new THREE.Group();
       scene.add(sculpture);
       sculpture.rotation.set(0.64, -0.12, -0.14);
-      scene.add(new THREE.AmbientLight(0xc6dcc5, 2));
-      const light = new THREE.DirectionalLight(0xe9ffe1, 5);
+      scene.add(new THREE.AmbientLight(0xc6dcc5, 1.45));
+      const light = new THREE.DirectionalLight(0xe9ffe1, 3.8);
       light.position.set(2, 5, 6); scene.add(light);
-      const rim = new THREE.PointLight(0x99ff69, 45, 15);
+      const rim = new THREE.PointLight(0x99ff69, 24, 15);
       rim.position.set(-4, -1, 3); scene.add(rim);
       const chrome = new THREE.MeshStandardMaterial({ color: 0xb9c5be, metalness: 0.8, roughness: 0.24 });
       const shellMaterial = new THREE.MeshStandardMaterial({ color: 0x36563c, metalness: 0.65, roughness: 0.32 });
@@ -64,7 +64,6 @@ export default function RhythmScene() {
       for (const side of [-1, 1]) {
         const pivot = new THREE.Group();
         pivot.position.set(side * 2.05, 1.02, 1.1);
-        const grip = new THREE.Vector3(0, 0, 0);
         const tip = new THREE.Vector3(-side * 1.7, -0.42, -1.1);
         const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.063, tip.length(), 16), wood);
         shaft.position.copy(tip).multiplyScalar(0.5);
@@ -72,7 +71,7 @@ export default function RhythmScene() {
         // Cylinder's narrow end points toward the tip.
         const bead = new THREE.Mesh(new THREE.SphereGeometry(0.062, 16, 12), wood);
         bead.scale.set(0.8, 0.8, 1.2); bead.position.copy(tip);
-        pivot.add(shaft, bead); pivot.position.add(grip);
+        pivot.add(shaft, bead);
         sticks.push(pivot); sculpture.add(pivot);
       }
       const vibrationMaterial = new THREE.MeshBasicMaterial({ color: 0x93c777, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
@@ -96,7 +95,10 @@ export default function RhythmScene() {
         sculpture.rotation.y += (-0.12 + pointerX * 0.2 - sculpture.rotation.y) * 0.035;
         sticks.forEach((stick, i) => {
           const phase = (elapsed + i * 0.5) % 1;
-          const lift = Math.sin(phase * Math.PI) ** 2;
+          // A fast rebound and a short drop give the stroke a clear contact point.
+          const lift = phase < 0.16
+            ? Math.sin((phase / 0.16) * Math.PI / 2)
+            : phase < 0.72 ? 1 : Math.pow((1 - phase) / 0.28, 0.7);
           stick.rotation.z = (i === 0 ? 1 : -1) * lift * 0.34;
         });
         const beat = (elapsed % 0.5) / 0.5;
