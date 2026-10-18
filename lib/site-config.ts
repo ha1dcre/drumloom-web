@@ -9,7 +9,7 @@ const appStoreUrl =
   "https://apps.apple.com/app/id6797268266";
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://balanskat.github.io/drumloom-site";
+  "https://ha1dcre.github.io/drumloom-web";
 
 export const siteConfig = {
   basePath,

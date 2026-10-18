@@ -15,7 +15,7 @@ notation, so the exercise reads as a repeating bar without adding a heavy
 video download. It is intentionally muted and visual-only for the launch page.
 
 It is prepared for a GitHub Pages project site at
-`https://balanskat.github.io/drumloom-site/`. GitHub Pages is intentionally not
+`https://ha1dcre.github.io/drumloom-web/`. GitHub Pages is intentionally not
 enabled yet, and the deployment workflow runs only when triggered manually.
 
 ## Local development
@@ -28,8 +28,8 @@ pnpm dev
 ## Static build
 
 ```sh
-NEXT_PUBLIC_BASE_PATH=/drumloom-site \
-NEXT_PUBLIC_SITE_URL=https://balanskat.github.io/drumloom-site \
+NEXT_PUBLIC_BASE_PATH=/drumloom-web \
+NEXT_PUBLIC_SITE_URL=https://ha1dcre.github.io/drumloom-web \
 pnpm build
 ```
 
@@ -62,7 +62,7 @@ For a pre-release check without publishing:
 ```sh
 pnpm install --frozen-lockfile
 pnpm run check
-NEXT_PUBLIC_BASE_PATH=/drumloom-site \
-NEXT_PUBLIC_SITE_URL=https://balanskat.github.io/drumloom-site \
+NEXT_PUBLIC_BASE_PATH=/drumloom-web \
+NEXT_PUBLIC_SITE_URL=https://ha1dcre.github.io/drumloom-web \
 pnpm run build
 ```
